@@ -7,14 +7,22 @@
 //
 
 #import "AppDelegate.h"
+#import "RootControl.h"
 
 @implementation AppDelegate
+@synthesize navigationController;
+@synthesize window;
+@synthesize tabControl;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    //self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
-    self.window.backgroundColor = [UIColor whiteColor];
+    //self.window.backgroundColor = [UIColor whiteColor];
+    [window addSubview:[navigationController view]];
+    
+    [window addSubview:[tabControl view]];
+
     [self.window makeKeyAndVisible];
     return YES;
 }
