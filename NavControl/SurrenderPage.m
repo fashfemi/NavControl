@@ -98,6 +98,20 @@
 }
 -(IBAction)swicthPage:(id)sender
 {
+    NSMutableArray* cont=[[NSMutableArray alloc]init];
+    NSMutableArray* name=[[NSMutableArray alloc]init];
+    [ cont addObject:txtAcct];[name addObject:@"Account Number"];
+    [cont addObject:txtBank];    [name addObject:@"Bank"];
+    [cont addObject:txtSort];[name addObject:@"Sort code"];
+    
+    NSString* valid=[valueHolder validator:cont andCallNames:name];
+    
+    if (![[valid stringByReplacingOccurrencesOfString:@" " withString:@""]isEqualToString:@""]) {
+        UIAlertView* alert=[[UIAlertView alloc]initWithTitle:@"Please fill the below fields" message:valid delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+        [alert show];
+        return;
+    }
+
     UIAlertView* alert=[[UIAlertView alloc]initWithTitle:@"Surrender initiated" message:@"Your surrender has been initiated. Someone will be in touch with you soon." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
     [alert show];
     if (self.menu==nil) {
@@ -128,9 +142,48 @@
     }
     return self;
 }
+- (void)showLeftView:(id)sender
+{
+    if (self.navigationController.revealController.focusedController == self.navigationController.revealController.leftViewController)
+    {
+        [self.navigationController.revealController showViewController:self.navigationController.revealController.frontViewController];
+    }
+    else
+    {
+        [self.navigationController.revealController showViewController:self.navigationController.revealController.leftViewController];
+    }
+}
+
+- (void)showRightView:(id)sender
+{
+    if (self.navigationController.revealController.focusedController == self.navigationController.revealController.rightViewController)
+    {
+        [self.navigationController.revealController showViewController:self.navigationController.revealController.frontViewController];
+    }
+    else
+    {
+        [self.navigationController.revealController showViewController:self.navigationController.revealController.rightViewController];
+    }
+}
 
 - (void)viewDidLoad
 {
+    
+    UIImage *revealImagePortrait = [UIImage imageNamed:@"reveal_menu_icon_portrait"];
+    UIImage *revealImageLandscape = [UIImage imageNamed:@"reveal_menu_icon_landscape"];
+    
+    if (self.navigationController.revealController.type & PKRevealControllerTypeLeft)
+    {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:revealImagePortrait landscapeImagePhone:revealImageLandscape style:UIBarButtonItemStylePlain target:self action:@selector(showLeftView:)];
+    }
+    
+    if (self.navigationController.revealController.type & PKRevealControllerTypeRight)
+    {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:revealImagePortrait landscapeImagePhone:revealImageLandscape style:UIBarButtonItemStylePlain target:self action:@selector(showRightView:)];
+    }
+
+    
+    
     UIBarButtonItem* btnOut=[[UIBarButtonItem alloc]initWithTitle:@"SignOut" style:UIBarButtonItemStylePlain target:self action:@selector(signOut:)];
     self.navigationItem.rightBarButtonItem=btnOut;
     

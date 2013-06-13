@@ -7,7 +7,7 @@
 //
 
 #import "AcctProducts.h"
-
+#import "PKRevealController.h"
 @interface AcctProducts ()
 
 @end
@@ -101,12 +101,12 @@
     NSArray *array = [dictionary objectForKey:@"data"];
     selectedCell = [array objectAtIndex:indexPath.row];
     [valueHolder setAcctPlan:selectedCell];
-    if(self.actMenu==nil){
-        AcctMenu* actIn=[[AcctMenu alloc]initWithNibName:@"AcctMenu" bundle:[NSBundle mainBundle]];
-        self.actMenu=actIn;
-    }
-    [self.mainTable deselectRowAtIndexPath:indexPath animated:YES];
-    [valueHolder transit1:self.navigationController View2Show:actMenu];
+   // if(self.actMenu==nil){
+   //     AcctMenu* actIn=[[AcctMenu alloc]initWithNibName:@"AcctMenu" bundle:[NSBundle mainBundle]];
+  //      self.actMenu=actIn;
+   // }
+    //[self.mainTable deselectRowAtIndexPath:indexPath animated:NO];
+   // [valueHolder transit1:self.navigationController View2Show:actMenu];
     
     
 }
@@ -123,24 +123,63 @@
     [askOut showInView:self.view];
     
 }
+- (void)showLeftView:(id)sender
+{
+    if (self.navigationController.revealController.focusedController == self.navigationController.revealController.leftViewController)
+    {
+        [self.navigationController.revealController showViewController:self.navigationController.revealController.frontViewController];
+    }
+    else
+    {
+        [self.navigationController.revealController showViewController:self.navigationController.revealController.leftViewController];
+    }
+}
+
+- (void)showRightView:(id)sender
+{
+    if (self.navigationController.revealController.focusedController == self.navigationController.revealController.rightViewController)
+    {
+        [self.navigationController.revealController showViewController:self.navigationController.revealController.frontViewController];
+    }
+    else
+    {
+        [self.navigationController.revealController showViewController:self.navigationController.revealController.rightViewController];
+    }
+}
+
+
 - (void)viewDidLoad
 {
+    UIImage *revealImagePortrait = [UIImage imageNamed:@"reveal_menu_icon_portrait"];
+    UIImage *revealImageLandscape = [UIImage imageNamed:@"reveal_menu_icon_landscape"];
+    
+    if (self.navigationController.revealController.type & PKRevealControllerTypeLeft)
+    {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:revealImagePortrait landscapeImagePhone:revealImageLandscape style:UIBarButtonItemStylePlain target:self action:@selector(showLeftView:)];
+    }
+    
+    if (self.navigationController.revealController.type & PKRevealControllerTypeRight)
+    {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:revealImagePortrait landscapeImagePhone:revealImageLandscape style:UIBarButtonItemStylePlain target:self action:@selector(showRightView:)];
+    }
     self.title=@"My Policies";
+    
     UIBarButtonItem* btnOut=[[UIBarButtonItem alloc]initWithTitle:@"SignOut" style:UIBarButtonItemStylePlain target:self action:@selector(signOut:)];
      self.navigationItem.rightBarButtonItem=btnOut;
     dataArray = [[NSMutableArray alloc] init];
+    
     //First section data
     NSArray *firstItemsArray = [[NSArray alloc] initWithObjects:@"Leadway Savings Plan", @"Leadway Target Plan", @"Educational Protection Plan",nil];
     NSDictionary *firstItemsArrayDict = [NSDictionary dictionaryWithObject:firstItemsArray forKey:@"data"];
     [dataArray addObject:firstItemsArrayDict];
     [self.navigationItem setHidesBackButton:YES animated:YES];
     
-    if([valueHolder getLoginStatus]){
-        [bar setHidden:NO];
-    }
-    else{
-        [bar setHidden:YES];
-    }
+    //if([valueHolder getLoginStatus]){
+    //    [bar setHidden:NO];
+    //}
+    //else{
+     //  [bar setHidden:YES];
+  //  }
     
     
     [super viewDidLoad];

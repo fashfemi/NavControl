@@ -65,10 +65,46 @@
     [valueHolder transit1:self.navigationController View2Show:pickBank];
 }
 
-
+- (void)showRightView:(id)sender
+{
+    if (self.navigationController.revealController.focusedController == self.navigationController.revealController.rightViewController)
+    {
+        [self.navigationController.revealController showViewController:self.navigationController.revealController.frontViewController];
+    }
+    else
+    {
+        [self.navigationController.revealController showViewController:self.navigationController.revealController.rightViewController];
+    }
+}
+- (void)showLeftView:(id)sender
+{
+    if (self.navigationController.revealController.focusedController == self.navigationController.revealController.leftViewController)
+    {
+        [self.navigationController.revealController showViewController:self.navigationController.revealController.frontViewController];
+    }
+    else
+    {
+        [self.navigationController.revealController showViewController:self.navigationController.revealController.leftViewController];
+    }
+}
 
 -(IBAction)switchPage:(id)sender{
     //if(self.more3==nil){
+    NSMutableArray* control=[[NSMutableArray alloc]init];
+    NSMutableArray* callname=[[NSMutableArray alloc]init];
+    
+    [control addObject:txtfrq];[callname addObject:@"Payment frequency"];
+    [control addObject:txtprd];[callname addObject:@"Cover period"];
+    
+    
+    NSString* valid=[valueHolder validator:control andCallNames:callname];
+    
+    if (![[valid stringByReplacingOccurrencesOfString:@" " withString:@""]isEqualToString:@""]) {
+        UIAlertView* alert=[[UIAlertView alloc]initWithTitle:@"Please fill the below fields" message:valid delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+        [alert show];
+        return;
+    }
+    
         morePage3* moreIn=[[morePage3 alloc]initWithNibName:@"morePage3" bundle:[NSBundle mainBundle]];
         self.more3=moreIn;
         
@@ -120,6 +156,20 @@
 
 - (void)viewDidLoad
 {
+    
+    UIImage *revealImagePortrait = [UIImage imageNamed:@"reveal_menu_icon_portrait"];
+    UIImage *revealImageLandscape = [UIImage imageNamed:@"reveal_menu_icon_landscape"];
+    
+    if (self.navigationController.revealController.type & PKRevealControllerTypeLeft)
+    {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:revealImagePortrait landscapeImagePhone:revealImageLandscape style:UIBarButtonItemStylePlain target:self action:@selector(showLeftView:)];
+    }
+    
+    if (self.navigationController.revealController.type & PKRevealControllerTypeRight)
+    {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:revealImagePortrait landscapeImagePhone:revealImageLandscape style:UIBarButtonItemStylePlain target:self action:@selector(showRightView:)];
+    }
+
     UIBarButtonItem* btnOut=[[UIBarButtonItem alloc]initWithTitle:@"SignOut" style:UIBarButtonItemStylePlain target:self action:@selector(signOut:)];
     self.navigationItem.rightBarButtonItem=btnOut;
     

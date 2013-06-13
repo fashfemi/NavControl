@@ -7,7 +7,7 @@
 //
 
 #import "UrDetails.h"
-
+#import "PKRevealController.h"
 @interface UrDetails ()
 
 @end
@@ -26,6 +26,29 @@
 
 @synthesize btmMore,btmProd,btmAcct;
 
+
+- (void)showRightView:(id)sender
+{
+    if (self.navigationController.revealController.focusedController == self.navigationController.revealController.rightViewController)
+    {
+        [self.navigationController.revealController showViewController:self.navigationController.revealController.frontViewController];
+    }
+    else
+    {
+        [self.navigationController.revealController showViewController:self.navigationController.revealController.rightViewController];
+    }
+}
+- (void)showLeftView:(id)sender
+{
+    if (self.navigationController.revealController.focusedController == self.navigationController.revealController.leftViewController)
+    {
+        [self.navigationController.revealController showViewController:self.navigationController.revealController.frontViewController];
+    }
+    else
+    {
+        [self.navigationController.revealController showViewController:self.navigationController.revealController.leftViewController];
+    }
+}
 -(IBAction)Prod:(id)sender{
     if (self.btmProd==nil) {
         Product* detin=[[Product alloc]initWithNibName:@"Product" bundle:[NSBundle mainBundle]];
@@ -72,6 +95,23 @@
 }
 -(IBAction)switchPlanDetails:(id)sender{
     //if(self.planDet==nil){
+    NSMutableArray* controls=[[NSMutableArray alloc]init];
+    NSMutableArray* callName=[[NSMutableArray alloc]init];
+    [controls addObject:firstName];[callName addObject:@"First Name"];
+    [controls addObject:lastName];[callName addObject:@"Last Name"];
+    [controls addObject:phoneNumber];[callName addObject:@"Phone Number"];
+    [controls addObject:email];[callName addObject:@"Email"];
+    [controls addObject:DOB];[callName addObject:@"Date Number"];
+    [controls addObject:gender];[callName addObject:@"Gender"];
+    
+    NSString* valid=[valueHolder validator:controls andCallNames:callName];
+    
+    if (![[valid stringByReplacingOccurrencesOfString:@" " withString:@""]isEqualToString:@""]) {
+        UIAlertView* alert=[[UIAlertView alloc]initWithTitle:@"Please fill the below fields" message:valid delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+        [alert show];
+        return;
+    }
+    
         PlanDetails* UrPlan=[[PlanDetails alloc]initWithNibName:@"PlanDetails" bundle:[NSBundle mainBundle]];
         planDet=UrPlan;
    // }
@@ -135,6 +175,20 @@
 }
 - (void)viewDidLoad
 {
+    UIImage *revealImagePortrait = [UIImage imageNamed:@"reveal_menu_icon_portrait"];
+    UIImage *revealImageLandscape = [UIImage imageNamed:@"reveal_menu_icon_landscape"];
+    
+    if (self.navigationController.revealController.type & PKRevealControllerTypeLeft)
+    {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:revealImagePortrait landscapeImagePhone:revealImageLandscape style:UIBarButtonItemStylePlain target:self action:@selector(showLeftView:)];
+    }
+    
+    if (self.navigationController.revealController.type & PKRevealControllerTypeRight)
+    {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:revealImagePortrait landscapeImagePhone:revealImageLandscape style:UIBarButtonItemStylePlain target:self action:@selector(showRightView:)];
+    }
+
+    
     
     if([valueHolder getLoginStatus]){
         [bar setHidden:NO];

@@ -7,13 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "RootControl.h"
+#import "PKRevealController.h"
 @interface valueHolder : NSObject
 {
     
-    
+  
 }
 
+
++(void)setPasscodeChange:(NSString*)val;
++(NSString*)getPasscode;
 
 +(void)setCustomPickerPage:(NSString*)val;
 +(NSString*)getCustomPickerPage;

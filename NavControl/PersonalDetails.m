@@ -59,6 +59,21 @@
 }
 -(IBAction)switchPage:(id)sender{
  //   if (self.Rev==nil) {
+    NSMutableArray* control=[[NSMutableArray alloc]init];
+    NSMutableArray* callName=[[NSMutableArray alloc]init];
+    
+    [control addObject:txt1name];[callName addObject:@"First Name"];
+    [control addObject:txt2name];[callName addObject:@"Last Name"];
+    [control addObject:txtDOB];[callName addObject:@"Date of Birth"];
+
+    
+    NSString* valid=[valueHolder validator:control andCallNames:callName];
+    
+    if (![[valid stringByReplacingOccurrencesOfString:@" " withString:@""]isEqualToString:@""]) {
+        UIAlertView* alert=[[UIAlertView alloc]initWithTitle:@"Please fill the below fields" message:valid delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+        [alert show];
+        return;
+    }
         ReView* revIn=[[ReView alloc]initWithNibName:@"ReView" bundle:[NSBundle mainBundle]];
         self.Rev=revIn;
   //  }

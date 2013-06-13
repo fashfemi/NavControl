@@ -19,10 +19,12 @@
 #import "Product.h"
 #import "AcctProducts.h"
 
+
+
 @class moreBottom;
 @class Product;
 @class AcctProducts;
-
+@class PKRevealController;
 
 @class ReinstatePol;
 @class SurrenderPage;
@@ -48,11 +50,12 @@
     Product* btmProd;
     AcctProducts* btmAcct;
 }
+@property (nonatomic, strong, readwrite) PKRevealController *revealController;
+
 @property(strong,nonatomic)    moreBottom* btmMore;
 @property(strong,nonatomic)   Product* btmProd;
 @property(strong,nonatomic)   AcctProducts* btmAcct;
 @property(strong,nonatomic) IBOutlet     UIToolbar* bar;
-
 
 @property (strong,nonatomic)IBOutlet  UITableView* mainTable;
 @property(strong,nonatomic) NSMutableArray *dataArray;

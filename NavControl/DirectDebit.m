@@ -26,11 +26,28 @@
     if(![[valueHolder getCustomPickerValue]isEqualToString:@""]){
         txtbank.text=[valueHolder getCustomPickerValue];
         [valueHolder setCustomPickerValue:@""];
+
+    
     }
     
 }
 
 -(IBAction)switchPage:(id)sender{
+    NSMutableArray* control=[[NSMutableArray alloc]init];
+    NSMutableArray* callName=[[NSMutableArray alloc]init];
+    
+    [control addObject:txtAcct];[callName addObject:@"Account Number"];
+    [control addObject:txtbank];[callName addObject:@"Bank"];
+    [control addObject:txtsortcode];[callName addObject:@"Sort code"];
+    
+    NSString* valid=[valueHolder validator:control andCallNames:callName];
+    
+    if (![[valid stringByReplacingOccurrencesOfString:@" " withString:@""]isEqualToString:@""]) {
+        UIAlertView* alert=[[UIAlertView alloc]initWithTitle:@"Please fill the below fields" message:valid delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+        [alert show];
+        return;
+    }
+
     UIAlertView* alert=[[UIAlertView alloc]initWithTitle:@"Request Sent!" message:@"Your Direct Debit request has been sent. A member of your product team will be in touch soon." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
     moreBottom* btm=[[moreBottom alloc]initWithNibName:@"moreBottom" bundle:[NSBundle mainBundle]];
     [valueHolder popOutPages:self.navigationController View2Show:btm];

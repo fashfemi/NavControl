@@ -8,23 +8,60 @@
 
 #import "AppDelegate.h"
 #import "RootControl.h"
+#import "PKRevealController.h"
 
 @implementation AppDelegate
 @synthesize navigationController;
 @synthesize window;
 @synthesize tabControl;
+@synthesize revealController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    //self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
-    //self.window.backgroundColor = [UIColor whiteColor];
-    [window addSubview:[navigationController view]];
+    // Step 1: Create your controllers.
+    UINavigationController *frontViewController = [[UINavigationController alloc] initWithRootViewController:[[AcctProducts alloc] init]];
+    //UIViewController *rightViewController = [[AcctMenu alloc] init];
+    UIViewController *leftViewController = [[AcctMenu alloc] init];
     
-    [window addSubview:[tabControl view]];
+    
+    // Step 2: Configure an options dictionary for the PKRevealController if necessary - in most cases the default behaviour should suffice. See PKRevealController.h for more option keys.
+    /*
+     NSDictionary *options = @{
+     PKRevealControllerAllowsOverdrawKey : [NSNumber numberWithBool:YES],
+     PKRevealControllerDisablesFrontViewInteractionKey : [NSNumber numberWithBool:YES]
+     };
+     */
+    
+    // Step 3: Instantiate your PKRevealController.
+    self.revealController = [PKRevealController revealControllerWithFrontViewController:frontViewController
+                                                                     leftViewController:leftViewController
+                                                                    rightViewController:nil
+                                                                                options:nil];
+    if([self getLogged]){
+   
+       
+       }
+    else{
+       
+        RootControl* rootPage=[[RootControl alloc]initWithNibName:@"RootControl" bundle:[NSBundle mainBundle]];
+        UINavigationController *myNavController = [[UINavigationController alloc] initWithRootViewController:rootPage];
+        [self.revealController setFrontViewController:myNavController];
+        [self.revealController showViewController:self.revealController.frontViewController];
 
+   
+    }
+    [self.revealController.navigationController.navigationBar setBackgroundColor:[UIColor redColor]];
+        self.window.rootViewController = self.revealController;
+    
     [self.window makeKeyAndVisible];
     return YES;
+}
+
+
+
+-(BOOL)getLogged{
+    return  NO;
+    
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

@@ -7,6 +7,8 @@
 //
 
 #import "AcctMenu.h"
+#import "PKRevealController.h"
+
 
 @interface AcctMenu ()
 
@@ -113,54 +115,69 @@
     selectedCell = [array objectAtIndex:indexPath.row];
     [self.mainTable deselectRowAtIndexPath:indexPath animated:YES];
     
+
+    // Putting back the front view on focus
+    
+    
     if([[selectedCell lowercaseString] isEqualToString:@"account summary"]){
     
         AcctSummary* actIn=[[AcctSummary alloc]initWithNibName:@"AcctSummary" bundle:[NSBundle mainBundle]];
         self.actSummary=actIn;
     NSString* header=[[NSString alloc]initWithFormat:@"Here's a summary of your %@",[valueHolder getAcctPlan ]];
         [self.actSummary.lblHead setText:header];
-    [valueHolder transit1:self.navigationController View2Show:actSummary];
+        UINavigationController *myNavController = [[UINavigationController alloc] initWithRootViewController:actIn];
+        [self.revealController setFrontViewController:myNavController];
+
     }
     
-    if([[selectedCell lowercaseString] isEqualToString:@"payments"]){
+    else if([[selectedCell lowercaseString] isEqualToString:@"payments"]){
             Payments* actIn=[[Payments alloc]initWithNibName:@"Payments" bundle:[NSBundle mainBundle]];
             self.payment=actIn;
-        [valueHolder transit1:self.navigationController View2Show:self.payment];
+
+        UINavigationController *myNavController = [[UINavigationController alloc] initWithRootViewController:actIn];
+        [self.revealController setFrontViewController:myNavController];
+
     }
     
-    if([[selectedCell lowercaseString] isEqualToString:[@"Cover Term & Frequency change" lowercaseString]]){
+    else if([[selectedCell lowercaseString] isEqualToString:[@"Cover Term & Frequency change" lowercaseString]]){
             MoreCover* actIn=[[MoreCover alloc]initWithNibName:@"MoreCover" bundle:[NSBundle mainBundle]];
             self.more=actIn;
-        [valueHolder transit1:self.navigationController View2Show:self.more];
+        UINavigationController *myNavController = [[UINavigationController alloc] initWithRootViewController:self.more];
+        [self.revealController setFrontViewController:myNavController];
     }
 
-    if([[selectedCell lowercaseString] isEqualToString:[@"Request Statment" lowercaseString]]){
+   else if([[selectedCell lowercaseString] isEqualToString:[@"Request Statment" lowercaseString]]){
             StatementPage* actIn=[[StatementPage alloc]initWithNibName:@"StatementPage" bundle:[NSBundle mainBundle]];
             self.statmentPage=actIn;
-        [valueHolder transit1:self.navigationController View2Show:self.statmentPage];
+       UINavigationController *myNavController = [[UINavigationController alloc] initWithRootViewController:self.statmentPage];
+       [self.revealController setFrontViewController:myNavController];
     }
 
-    if([[selectedCell lowercaseString] isEqualToString:[@"Request Loan" lowercaseString]]){
+    else if([[selectedCell lowercaseString] isEqualToString:[@"Request Loan" lowercaseString]]){
 
             LoanRequest* actIn=[[LoanRequest alloc]initWithNibName:@"LoanRequest" bundle:[NSBundle mainBundle]];
             self.loanRequest=actIn;
-        [valueHolder transit1:self.navigationController View2Show:self.loanRequest];
+        UINavigationController *myNavController = [[UINavigationController alloc] initWithRootViewController:loanRequest];
+        [self.revealController setFrontViewController:myNavController];
     }
    
     
-    if([[selectedCell lowercaseString] isEqualToString:[@"Surrender Policy" lowercaseString]]){
+    else if([[selectedCell lowercaseString] isEqualToString:[@"Surrender Policy" lowercaseString]]){
         
         SurrenderPage* actIn=[[SurrenderPage alloc]initWithNibName:@"SurrenderPage" bundle:[NSBundle mainBundle]];
         self.surrender=actIn;
-        [valueHolder transit1:self.navigationController View2Show:self.surrender];
+        UINavigationController *myNavController = [[UINavigationController alloc] initWithRootViewController:surrender];
+        [self.revealController setFrontViewController:myNavController];
     }
     
-    if([[selectedCell lowercaseString] isEqualToString:[@"Reinstatement Policy" lowercaseString]]){
+   else if([[selectedCell lowercaseString] isEqualToString:[@"Reinstatement Policy" lowercaseString]]){
         
         ReinstatePol* actIn=[[ReinstatePol alloc]initWithNibName:@"ReinstatePol" bundle:[NSBundle mainBundle]];
         self.reinstate=actIn;
-        [valueHolder transit1:self.navigationController View2Show:self.reinstate];
+       UINavigationController *myNavController = [[UINavigationController alloc] initWithRootViewController:self.reinstate];
+       [self.revealController setFrontViewController:myNavController];
     }
+      [self.revealController showViewController:self.revealController.frontViewController];
     
 }
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -189,9 +206,16 @@
 
 - (void)viewDidLoad
 {
+
     self.title=[valueHolder getAcctPlan];
     UIBarButtonItem* btnOut=[[UIBarButtonItem alloc]initWithTitle:@"SignOut" style:UIBarButtonItemStylePlain target:self action:@selector(signOut:)];
     self.navigationItem.rightBarButtonItem=btnOut;
+    
+ 
+    
+
+   
+    
     dataArray = [[NSMutableArray alloc] init];
     //First section data
     NSArray *firstItemsArray = [[NSArray alloc] initWithObjects:@"Account Summary", @"Payments", @"Cover Term & Frequency change",@"Request Statment",@"Request Loan",@"Surrender Policy",@"Reinstatement Policy",nil];

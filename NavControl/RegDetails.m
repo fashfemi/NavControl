@@ -32,13 +32,28 @@
     [sender resignFirstResponder];
 }
 -(IBAction)switchPage:(id)sender{
-  /*  if(![txtMobile1.text isEqualToString:txtMobile2.text]){
+    if(![txtMobile1.text isEqualToString:txtMobile2.text]){
         UIAlertView* alert=[[UIAlertView alloc]initWithTitle:@"Mobile Number misMatch" message:@"Please re-enter your mobile number" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
         txtMobile1.text=txtMobile2.text =@"";
         [alert show];
         return;
     }
-   */
+   
+    NSMutableArray* control=[[NSMutableArray alloc]init];
+    NSMutableArray* callName=[[NSMutableArray alloc]init];
+    
+    [control addObject:txtEmail];[callName addObject:@"Email"];
+    [control addObject:txtMobile1];[callName addObject:@"Mobile Number"];
+    [control addObject:txtPolicyNo];[callName addObject:@"Policy Number"];
+    
+    NSString* valid=[valueHolder validator:control andCallNames:callName];
+    
+    if (![[valid stringByReplacingOccurrencesOfString:@" " withString:@""]isEqualToString:@""]) {
+        UIAlertView* alert=[[UIAlertView alloc]initWithTitle:@"Please fill the below fields" message:valid delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+        [alert show];
+        return;
+    }
+    
    // if (self.pers==nil) {
         PersonalDetails* detIn=[[PersonalDetails alloc]initWithNibName:@"PersonalDetails" bundle:[NSBundle mainBundle]];
         self.pers=detIn;

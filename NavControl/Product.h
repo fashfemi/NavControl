@@ -18,7 +18,7 @@
 @class Product;
 @class AcctProducts;
 @class AboutQuote;
-@interface Product : UIViewController <UITableViewDelegate, UITableViewDataSource,UIActionSheetDelegate>
+@interface Product : UIViewController <UITableViewDelegate, UITableViewDataSource,UIActionSheetDelegate,UITabBarControllerDelegate>
 {
     UITableView *mainTable;
     NSMutableArray *dataArray;
@@ -27,12 +27,12 @@
     moreBottom* btmMore;
     Product* btmProd;
     AcctProducts* btmAcct;
-   
+    UITabBarItem* tb1;
 }
 @property(strong,nonatomic)    moreBottom* btmMore;
 @property(strong,nonatomic)   Product* btmProd;
 @property(strong,nonatomic)   AcctProducts* btmAcct;
-
+@property(strong,nonatomic) IBOutlet     UITabBarController* tabBarController;
 @property (strong,nonatomic)IBOutlet  UITableView* mainTable;
 @property(strong,nonatomic) NSMutableArray *dataArray;
 @property(strong,nonatomic) AboutQuote* AboutQ;

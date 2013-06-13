@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>
-	<string>abt6.png</string>
+	<string>option1-Recovered-Recovered2.jpg</string>
 	<key>CFBundleIdentifier</key>
 	<string>Leadway.com.ng.${PRODUCT_NAME:rfc1034identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>

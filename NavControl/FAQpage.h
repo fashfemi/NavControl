@@ -14,8 +14,10 @@
 @class moreBottom;
 @class Product;
 @class AcctProducts;
-@interface FAQpage : UIViewController
+@interface FAQpage : UIViewController<UITableViewDataSource,UITableViewDelegate>
 {
+    UITableView *mainTable;
+    NSMutableArray *dataArray;
     
     moreBottom* btmMore;
     Product* btmProd;
@@ -25,6 +27,10 @@
 @property(strong,nonatomic)    moreBottom* btmMore;
 @property(strong,nonatomic)   Product* btmProd;
 @property(strong,nonatomic)   AcctProducts* btmAcct;
+
+@property (strong,nonatomic)IBOutlet  UITableView* mainTable;
+@property(strong,nonatomic) NSMutableArray *dataArray;
+
 
 -(IBAction)Prod:(id)sender;
 -(IBAction)myAcct:(id)sender;

@@ -7,13 +7,13 @@
 //
 
 #import "Product.h"
-
+#import "PKRevealController.h"
 @interface Product ()
 
 @end
 
 @implementation Product
-
+@synthesize tabBarController;
 @synthesize mainTable;
 @synthesize dataArray;
 @synthesize AboutQ;
@@ -54,9 +54,45 @@
     }
     return self;
 }
-
+- (void)showRightView:(id)sender
+{
+    if (self.navigationController.revealController.focusedController == self.navigationController.revealController.rightViewController)
+    {
+        [self.navigationController.revealController showViewController:self.navigationController.revealController.frontViewController];
+    }
+    else
+    {
+        [self.navigationController.revealController showViewController:self.navigationController.revealController.rightViewController];
+    }
+}
+- (void)showLeftView:(id)sender
+{
+    if (self.navigationController.revealController.focusedController == self.navigationController.revealController.leftViewController)
+    {
+        [self.navigationController.revealController showViewController:self.navigationController.revealController.frontViewController];
+    }
+    else
+    {
+        [self.navigationController.revealController showViewController:self.navigationController.revealController.leftViewController];
+    }
+}
 - (void)viewDidLoad
 {
+    
+    UIImage *revealImagePortrait = [UIImage imageNamed:@"reveal_menu_icon_portrait"];
+    UIImage *revealImageLandscape = [UIImage imageNamed:@"reveal_menu_icon_landscape"];
+    
+    if (self.navigationController.revealController.type & PKRevealControllerTypeLeft)
+    {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:revealImagePortrait landscapeImagePhone:revealImageLandscape style:UIBarButtonItemStylePlain target:self action:@selector(showLeftView:)];
+    }
+    
+    if (self.navigationController.revealController.type & PKRevealControllerTypeRight)
+    {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:revealImagePortrait landscapeImagePhone:revealImageLandscape style:UIBarButtonItemStylePlain target:self action:@selector(showRightView:)];
+    }
+
+    
     dataArray = [[NSMutableArray alloc] init];
     
     //First section data
@@ -72,7 +108,7 @@
     //[dataArray addObject:secondItemsArrayDict];
    
     self.title=@"Products";
-    
+
     if([valueHolder getLoginStatus]){
         [bar setHidden:NO];
     }

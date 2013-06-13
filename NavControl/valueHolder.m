@@ -19,9 +19,17 @@ static NSString* datePage=@"";
 static NSString* selectedDate=@"";
 static NSString* pickerPage=@"";
 static NSString* pickerValue=@"";
+static NSString* changePasscode=@"12345";
 
 
 
++(void)setPasscodeChange:(NSString*)val{
+    changePasscode=val;
+}
++(NSString*)getPasscode{
+    
+    return changePasscode;
+}
 
 +(NSString*)getEmailAddress{
     return  @"support@leadway.com";
@@ -146,13 +154,15 @@ static NSString* pickerValue=@"";
 }
 
 +(void)transit1:(UINavigationController*)control View2Show:(UIViewController*)display{
-    [UIView animateWithDuration:0.75
+    /*[UIView animateWithDuration:0.75
                      animations:^{
                          [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
                          [control pushViewController:display animated:NO];
                          [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:control.view cache:NO];
                          
-                     }];
+                     }];*/
+    [control pushViewController:display animated:YES];
+    
     
 }
 
@@ -171,12 +181,12 @@ static NSString* pickerValue=@"";
     
     // NSArray *VCs = [control viewControllers];
     // [self.navigationController popToViewController:[VCs objectAtIndex:([VCs count] - 2)] animated:YES];
-    
+   /*
     [UIView animateWithDuration:0.75
                      animations:^{
                          [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
                          [UIView setAnimationTransition:UIViewAnimationTransitionCurlDown forView:control.view cache:NO];
-                     }];
+                     }];*/
     for (UIViewController *controller in control.viewControllers)
     {
         if ([controller isKindOfClass:[display class]])
@@ -192,11 +202,12 @@ static NSString* pickerValue=@"";
    // NSArray *VCs = [control viewControllers];
    // [self.navigationController popToViewController:[VCs objectAtIndex:([VCs count] - 2)] animated:YES];
     
-    [UIView animateWithDuration:0.75
+   /* [UIView animateWithDuration:0.75
                      animations:^{
                          [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
                          [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:control.view cache:NO];
                      }];
+    */
     for (UIViewController *controller in control.viewControllers)
     {
         if ([controller isKindOfClass:[display class]])
@@ -209,12 +220,27 @@ static NSString* pickerValue=@"";
 
 +(void)pop2Root:(UINavigationController*)control{
     loggedIn=NO;
-    [UIView animateWithDuration:0.75
+   /* [UIView animateWithDuration:0.75
                      animations:^{
                          [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
                          [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:control.view cache:NO];
                      }];
-    [control popToRootViewControllerAnimated:YES];
+    */
+    BOOL there=NO;
+    RootControl* rootPage=[[RootControl alloc]initWithNibName:@"RootControl" bundle:[NSBundle mainBundle]];
+    for (UIViewController *controller in control.viewControllers)
+    {
+        if ([controller isKindOfClass:[rootPage class]])
+        {
+            [control popToViewController:controller animated:YES];
+//            [control popToRootViewControllerAnimated:YES];
+            there=YES;
+            return;
+        }
+    }
+    if(!there){
+    [self transit1:control View2Show:rootPage];
+    }
     
 }
 @end

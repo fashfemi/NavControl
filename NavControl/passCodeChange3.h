@@ -21,19 +21,17 @@
     UITextField* txt3;
     UITextField* txt4;
     UITextField* txt5;
-    UILabel* lab;
-    UILabel* header;
-    UIActivityIndicatorView* act;
+
+    NSString* strPrevPage;
     
 }
+@property(strong,nonatomic) IBOutlet    NSString* strPrevPage;
 @property(strong,nonatomic) IBOutlet UITextField* txt1;
 @property(strong,nonatomic) IBOutlet UITextField* txt2;
 @property(strong,nonatomic) IBOutlet UITextField* txt3;
 @property(strong,nonatomic) IBOutlet UITextField* txt4;
 @property(strong,nonatomic) IBOutlet UITextField* txt5;
-@property(strong,nonatomic) IBOutlet UILabel* lab;
-@property(strong,nonatomic)IBOutlet UIActivityIndicatorView* act;
-@property(nonatomic,strong)IBOutlet UILabel* header;
+
 @property(strong,nonatomic)    moreBottom* change2;
 
 -(IBAction)Register:(id)sender;

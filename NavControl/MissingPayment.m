@@ -147,11 +147,42 @@
     }
 
 }
+- (void)showRightView:(id)sender
+{
+    if (self.navigationController.revealController.focusedController == self.navigationController.revealController.rightViewController)
+    {
+        [self.navigationController.revealController showViewController:self.navigationController.revealController.frontViewController];
+    }
+    else
+    {
+        [self.navigationController.revealController showViewController:self.navigationController.revealController.rightViewController];
+    }
+}
+- (void)showLeftView:(id)sender
+{
+    if (self.navigationController.revealController.focusedController == self.navigationController.revealController.leftViewController)
+    {
+        [self.navigationController.revealController showViewController:self.navigationController.revealController.frontViewController];
+    }
+    else
+    {
+        [self.navigationController.revealController showViewController:self.navigationController.revealController.leftViewController];
+    }
+}
 -(IBAction)switchPage:(id)sender{
-    if (self.lastPage==nil) {
+    //if (self.lastPage==nil) {
+    NSMutableArray* control=[[NSMutableArray alloc]init];
+    NSMutableArray* callName=[[NSMutableArray alloc]init];
+    
+    [control addObject:txtAmount];[callName addObject:@"Amount paid"];
+    [control addObject:txtChannel];[callName addObject:@"Payment channel"];
+    [control addObject:txtDate];[callName addObject:@"Payment date"];
+    [control addObject:txtType];[callName addObject:@"Payment type"];
+    
+    [valueHolder validator:control andCallNames:callName];
         missingPaymentLastPage* lastIn=[[missingPaymentLastPage alloc]initWithNibName:@"missingPaymentLastPage" bundle:[NSBundle mainBundle]];
         self.lastPage=lastIn;
-    }
+   // }
     self.lastPage.arrAmt=arrAmt;
     self.lastPage.arrChannel=arrChannel;
     self.lastPage.arrDate=arrDate;
@@ -184,6 +215,20 @@
 
 - (void)viewDidLoad
 {
+    
+    UIImage *revealImagePortrait = [UIImage imageNamed:@"reveal_menu_icon_portrait"];
+    UIImage *revealImageLandscape = [UIImage imageNamed:@"reveal_menu_icon_landscape"];
+    
+    if (self.navigationController.revealController.type & PKRevealControllerTypeLeft)
+    {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:revealImagePortrait landscapeImagePhone:revealImageLandscape style:UIBarButtonItemStylePlain target:self action:@selector(showLeftView:)];
+    }
+    
+    if (self.navigationController.revealController.type & PKRevealControllerTypeRight)
+    {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:revealImagePortrait landscapeImagePhone:revealImageLandscape style:UIBarButtonItemStylePlain target:self action:@selector(showRightView:)];
+    }
+
     self.title=@"Missing Payment";
     UIBarButtonItem* btnOut=[[UIBarButtonItem alloc]initWithTitle:@"SignOut" style:UIBarButtonItemStylePlain target:self action:@selector(signOut:)];
     self.navigationItem.rightBarButtonItem=btnOut;

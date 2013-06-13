@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class PKRevealController;
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 {
     UIWindow* window;
@@ -17,5 +17,6 @@
 @property (strong, nonatomic)IBOutlet UIWindow *window;
 @property (strong,nonatomic) IBOutlet UINavigationController* navigationController;
 @property(strong,nonatomic) IBOutlet   UITabBarController* tabControl;
+@property (nonatomic, strong, readwrite) PKRevealController *revealController;
 
 @end

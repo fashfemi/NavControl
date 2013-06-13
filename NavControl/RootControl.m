@@ -17,9 +17,50 @@
 @synthesize contact;
 @synthesize acct;
 @synthesize util;
-
+@synthesize test;
 @synthesize acProd;
 @synthesize btmMore,btmProd,btmAcct;
+@synthesize lbl;
+-(void) test:(id)sender{
+    LifefitBinding* binder=[[LifefitService LifefitBinding]initWithAddress:@"http://www.webqa.fitltd.com/lwyapp/lifefit/soap?wsdl"];
+    binder.authPassword=@"mobapp2";
+    binder.authUsername=@"456549C5A2R";
+    
+    tns1_LoginData* log=[[tns1_LoginData alloc]init];
+    log.UserId=@"mobapp";
+    log.Password=@"321357987";
+    
+    tns1_QuoteCoverageData* quoteData=[[tns1_QuoteCoverageData alloc]init];
+    quoteData.FaceAmount= [[NSNumber alloc]initWithDouble:93330];
+    quoteData.PremiumAmount=[[NSNumber alloc]initWithDouble:8900];
+    quoteData.ProductCode=@"RSP";
+    
+    
+    tns1_ClientData* clientData=[[tns1_ClientData alloc]init];
+    clientData.IsCompany=NO;
+    clientData.BirthDate=[NSDate new];
+    clientData.Email=@"ponle@test.ng";
+    clientData.EmployerName=@"My Name";
+    clientData.Title=@"Femi";
+    clientData.MobilePhoneNo=@"080898687575";
+    
+    tns1_QuoteDataRequest* newQuote=[[tns1_QuoteDataRequest alloc]init];
+    newQuote.AgentNo=@"603";
+    newQuote.MaturityYears=[[NSNumber alloc]initWithDouble:10];
+    newQuote.PremiumFrequency=@"M";
+    newQuote.Login=log;
+    newQuote.Owner=clientData;
+    [newQuote.CoverageData addObject:quoteData];
+    
+    LifefitBindingResponse* cal=[binder CalculateQuoteUsingQuoteData:newQuote];
+    
+    tns1_QuoteDataResponse* response=(tns1_QuoteDataResponse*)cal;
+    NSString* vv=response.QuoteNo;
+   // lbl.text=vv;
+    
+    
+}
+
 -(IBAction)Prod:(id)sender{
   //  if (self.btmProd==nil) {
         Product* detin=[[Product alloc]initWithNibName:@"Product" bundle:[NSBundle mainBundle]];
@@ -110,6 +151,8 @@
     
 }
 
+
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -121,7 +164,13 @@
 
 - (void)viewDidLoad
 {
-    self.title=@"Home";
+    
+
+    
+    
+    [self.navigationItem setHidesBackButton:YES animated:YES];
+
+    self.title=@"LAC Life App";
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
 }

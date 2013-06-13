@@ -129,6 +129,7 @@
             
             UIAlertView* alert=[[UIAlertView alloc]initWithTitle:@"Incorrect Passcode" message:alt delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
             [alert show];
+            [txt1 becomeFirstResponder];
             [self showTextFeilds];
             [self clearTextFields];
         }
@@ -182,7 +183,7 @@
     NSString* passCode=[[NSString alloc]initWithFormat:@"%@%@%@%@%@",
                  txt1.text,    txt2.text,    txt3.text,    txt4.text,    txt5.text ];
     BOOL accept=NO;
-    if([passCode isEqualToString:@"12345"]){
+    if([[valueHolder getPasscode]isEqualToString:passCode]){
         accept=YES;
         [valueHolder setLoginStatus:YES];
     }

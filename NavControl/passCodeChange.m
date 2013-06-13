@@ -18,9 +18,7 @@
 @synthesize txt3;
 @synthesize txt4;
 @synthesize txt5;
-@synthesize act;
-@synthesize header;
-@synthesize lab;
+
 
 
 -(void)TestAndLogin{
@@ -56,6 +54,7 @@
             
             UIAlertView* alert=[[UIAlertView alloc]initWithTitle:@"Incorrect Passcode" message:alt delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
             [alert show];
+            [txt1 becomeFirstResponder];
             [self showTextFeilds];
             [self clearTextFields];
         }
@@ -140,9 +139,7 @@
     self.txt5.text=@"";
 }
 -(void)hideTextField{
-    self.act.hidden=NO;
-    self.lab.hidden=NO;
-    self.header.hidden=YES;
+
     self.txt1.hidden=YES;
     self.txt2.hidden=YES;
     self.txt3.hidden=YES;
@@ -152,14 +149,13 @@
     
 }
 -(void)showTextFeilds{
-    self.header.hidden=NO;
+
     self.txt1.hidden=NO;
     self.txt2.hidden=NO;
     self.txt3.hidden=NO;
     self.txt4.hidden=NO;
     self.txt5.hidden=NO;
-    self.act.hidden=YES;
-    self.lab.hidden=YES;
+
 }
 -(BOOL)LoginAcct{
     //Call Service to Login and should return Boolean
@@ -172,6 +168,7 @@
     BOOL accept=NO;
     if([passCode isEqualToString:@"12345"]){
         accept=YES;
+
         [valueHolder setLoginStatus:YES];
     }
     else{

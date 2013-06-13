@@ -21,6 +21,9 @@
 @class ContactUs;
 @class DirectDebit;
 @class moreAbout;
+@class moreBottom;
+@class Product;
+@class AcctProducts;
 @interface moreBottom : UIViewController<UITableViewDataSource,UITableViewDelegate>
 {
     moreAbout* moreAbt;
@@ -31,7 +34,13 @@
     FAQpage* faq;
     Page1* term;
     passCodeChange* pass;
+    moreBottom* btmMore;
+    Product* btmProd;
+    AcctProducts* btmAcct;
 }
+@property(strong,nonatomic)    moreBottom* btmMore;
+@property(strong,nonatomic)   Product* btmProd;
+@property(strong,nonatomic)   AcctProducts* btmAcct;
 
 @property (strong,nonatomic)IBOutlet  UITableView* mainTable;
 @property(strong,nonatomic) NSMutableArray *dataArray;
@@ -42,4 +51,10 @@
 @property(strong,nonatomic)     FAQpage* faq;
 @property(strong,nonatomic)     Page1* term;
 @property(strong,nonatomic)     passCodeChange* pass;
+
+-(IBAction)Prod:(id)sender;
+-(IBAction)myAcct:(id)sender;
+-(IBAction)moreMenu:(id)sender;
+
+
 @end

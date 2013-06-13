@@ -18,10 +18,9 @@
 @synthesize txt3;
 @synthesize txt4;
 @synthesize txt5;
-@synthesize act;
-@synthesize header;
-@synthesize lab;
+
 @synthesize  change2;
+@synthesize  strPrevPage;
 
 -(void)TestAndLogin{
     int summer=[txt1.text length]+[txt2.text length]+[txt3.text length]+[txt4.text length]+[txt5.text length];
@@ -70,7 +69,11 @@
     }
     
 }
-
+-(IBAction)RetHome{
+    [valueHolder pop2Root:self.navigationController];
+    
+    
+}
 
 -(IBAction)backgroundAction:(id)sender{
     
@@ -92,9 +95,7 @@
     self.txt5.text=@"";
 }
 -(void)hideTextField{
-    self.act.hidden=NO;
-    self.lab.hidden=NO;
-    self.header.hidden=YES;
+
     self.txt1.hidden=YES;
     self.txt2.hidden=YES;
     self.txt3.hidden=YES;
@@ -104,14 +105,12 @@
     
 }
 -(void)showTextFeilds{
-    self.header.hidden=NO;
+
     self.txt1.hidden=NO;
     self.txt2.hidden=NO;
     self.txt3.hidden=NO;
     self.txt4.hidden=NO;
     self.txt5.hidden=NO;
-    self.act.hidden=YES;
-    self.lab.hidden=YES;
 }
 -(BOOL)LoginAcct{
     //Call Service to Login and should return Boolean
@@ -122,7 +121,8 @@
     NSString* passCode=[[NSString alloc]initWithFormat:@"%@%@%@%@%@",
                         txt1.text,    txt2.text,    txt3.text,    txt4.text,    txt5.text ];
     BOOL accept=NO;
-    if([passCode isEqualToString:@"12345"]){
+    if([[self strPrevPage]isEqualToString:passCode]){
+        [valueHolder setPasscodeChange:passCode];
         accept=YES;
         [valueHolder setLoginStatus:YES];
     }
@@ -195,6 +195,9 @@
 
 - (void)viewDidLoad
 {
+    
+    UIBarButtonItem* btnOut=[[UIBarButtonItem alloc]initWithTitle:@"Home" style:UIBarButtonItemStylePlain target:self action:@selector(RetHome)];
+    self.navigationItem.rightBarButtonItem=btnOut;
     [txt1 becomeFirstResponder];
     [self.navigationItem setHidesBackButton:YES animated:YES];
     [super viewDidLoad];
